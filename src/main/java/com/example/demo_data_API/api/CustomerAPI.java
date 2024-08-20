@@ -32,13 +32,8 @@ public class CustomerAPI {
         return customers;
     }
 
-    // @GetMapping("/customers/{id}")
-    // public Optional<Customer> getCustomerById(@PathVariable Long id) {
-    //     return repo.findById(id);
-    // }
-
-    public Optional<Customer> getCustomerById(@PathVariable Long id) {
-        // Search for the customer by ID in the hardcoded list
+    @GetMapping("/customers/{id}")
+    public Optional<Customer> getCustomerById(@PathVariable("id") Long id) {
         return customers.stream()
                 .filter(customer -> customer.getId() == id)
                 .findFirst();
