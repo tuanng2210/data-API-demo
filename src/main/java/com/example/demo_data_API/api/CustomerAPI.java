@@ -29,21 +29,21 @@ public class CustomerAPI {
         return repo.findAll();
     }
 
-    @GetMapping("/customers/{id}")
-    public Optional<Customer> getCustomerById(@PathVariable("id") Long id) {
+    @GetMapping("/customers/{customerId}")
+    public Optional<Customer> getCustomerById(@PathVariable("customerId") Long id) {
         return repo.findById(id);
     }
 
-    @PostMapping
-	public ResponseEntity<?> addCustomer(@RequestBody Customer newCustomer, UriComponentsBuilder uri) {
-		if (newCustomer.getId() != 0 || newCustomer.getName() == null || newCustomer.getEmail() == null) {
-			return ResponseEntity.badRequest().build();
-		}
-		newCustomer = repo.save(newCustomer);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/customers/{id}")
-				.buildAndExpand(newCustomer.getId()).toUri();
-		ResponseEntity<?> response = ResponseEntity.created(location).build();
-		return response;
-	}
+    @PostMapping("/customers")
+    public ResponseEntity<?> addCustomer(@RequestBody Customer newCustomer, UriComponentsBuilder uri) {
+        if (newCustomer.getId() != 0 || newCustomer.getName() == null || newCustomer.getEmail() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        newCustomer = repo.save(newCustomer);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(newCustomer.getId()).toUri();
+        ResponseEntity<?> response = ResponseEntity.created(location).build();
+        return response;
+    }
 
 }
