@@ -1,0 +1,1 @@
+insert into CUSTOMERS (CUSTOMER_NAME, PASSWORD, EMAIL) VALUES ('Tuan', 'pass', 'tuanng2210@gmail.com');
