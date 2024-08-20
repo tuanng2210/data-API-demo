@@ -12,20 +12,14 @@ import jakarta.persistence.Table;
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	long id;
+	private long id;
 
 	@Column(name = "CUSTOMER_NAME")
-	String name;
+	private String name;
 
-	String email;
+	private String email;
 
-	String password;
-
-	// public Customer(long id, String name, String email) {
-	// 	this.id = id;
-	// 	this.name = name;
-	// 	this.email = email;
-	// }
+	private String password;
 
 	public long getId() {
 		return id;
