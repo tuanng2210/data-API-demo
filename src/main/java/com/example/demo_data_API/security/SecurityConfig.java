@@ -12,10 +12,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-//  Establish this application as an Resource Server.
-//  Each request is expected to provide an Authorization header containing a signed JWT as a Bearer token.
-//  The signature will be checked using the PUBLIC key from the Authorization Server.
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
