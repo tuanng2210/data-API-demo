@@ -23,7 +23,7 @@ public class SecurityConfig {
     @Value("${rsa.public-key}")
     RSAPublicKey publicKey;
 
-    // PART 8a -
+    
     // Spring Security will handle most of the JWT processing for us, but we must
     // provide it with logic to decode JWTs and check their signatures.
     // Define a jwtDecoder() method which creates and returns a JwtDecoder object.
