@@ -20,38 +20,39 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${rsa.public-key}")
-    RSAPublicKey publicKey;
+        @Value("${rsa.public-key}")
+        RSAPublicKey publicKey;
 
-    
-    // Spring Security will handle most of the JWT processing for us, but we must
-    // provide it with logic to decode JWTs and check their signatures.
-    // Define a jwtDecoder() method which creates and returns a JwtDecoder object.
-    // The NimbusJwtDecoder class from Spring Security can be create the JwtDecoder
-    // by calling its withPublicKey() method to set the public key.
-    private JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(publicKey).build();
-    }
+        // Spring Security will handle most of the JWT processing for us, but we must
+        // provide it with logic to decode JWTs and check their signatures.
+        // Define a jwtDecoder() method which creates and returns a JwtDecoder object.
+        // The NimbusJwtDecoder class from Spring Security can be create the JwtDecoder
+        // by calling its withPublicKey() method to set the public key.
+        private JwtDecoder jwtDecoder() {
+                return NimbusJwtDecoder.withPublicKey(publicKey).build();
+        }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                // Disable sessions. We want a stateless application:
-                .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                return http
+                                // Disable sessions. We want a stateless application:
+                                .sessionManagement(
+                                                session -> session
+                                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                // CSRF protection is merely extra overhead with session management disabled:
-                .csrf(csrf -> csrf.disable())
+                                // CSRF protection is merely extra overhead with session management disabled:
+                                .csrf(csrf -> csrf.disable())
 
-                // All inbound requests must be authenticated:
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/").permitAll()
-                        .anyRequest().authenticated())
+                                // All inbound requests must be authenticated:
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers("/").permitAll()
+                                                .anyRequest().authenticated())
 
-                .oauth2ResourceServer(
-                        (resourceServer) -> resourceServer.jwt((customizer) -> customizer.decoder(jwtDecoder())))
-                // Insert code above: ^ ^ ^ ^ ^
-                .build();
-    }
+                                .oauth2ResourceServer(
+                                                (resourceServer) -> resourceServer
+                                                                .jwt((customizer) -> customizer.decoder(jwtDecoder())))
+
+                                .build();
+        }
 
 }
