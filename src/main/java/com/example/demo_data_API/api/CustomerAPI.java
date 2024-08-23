@@ -20,6 +20,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.example.demo_data_API.domain.Customer;
 import com.example.demo_data_API.repository.CustomersRepository;
 
+/**
+ * REST controller for managing customer-related API endpoints.
+ * Provides operations to create, retrieve, update, and delete customers.
+ */
 @RestController
 @RequestMapping("/api")
 public class CustomerAPI {
@@ -27,16 +31,32 @@ public class CustomerAPI {
     @Autowired
     CustomersRepository repo;
 
+    /**
+     * Retrieves all customers from the database.
+     * @return an iterable collection of customers.
+     */
     @GetMapping("/customers")
     public Iterable<Customer> getAll() {
         return repo.findAll();
     }
 
+    /**
+     * Retrieves a specific customer by their ID.
+     * @param id the ID of the customer to retrieve.
+     * @return an Optional containing the customer if found, or empty if not found.
+     */
     @GetMapping("/customers/{customerId}")
     public Optional<Customer> getCustomerById(@PathVariable("customerId") Long id) {
         return repo.findById(id);
     }
 
+    /**
+     * Adds a new customer to the database.
+     * The new customer must not have an ID and must have both a name and an email.
+     * @param newCustomer the customer to add.
+     * @param uri the UriComponentsBuilder to build the location URI.
+     * @return a ResponseEntity with the status of the request.
+     */
     @PostMapping("/customers")
     public ResponseEntity<?> addCustomer(@RequestBody Customer newCustomer, UriComponentsBuilder uri) {
         if (newCustomer.getId() != 0 || newCustomer.getName() == null || newCustomer.getEmail() == null) {
@@ -49,6 +69,14 @@ public class CustomerAPI {
         return response;
     }
 
+    /**
+     * Updates an existing customer in the database.
+     * The ID in the customer data must match the ID in the path.
+     * The customer must have both a name and an email.
+     * @param newCustomer the customer data to update.
+     * @param customerId the ID of the customer to update.
+     * @return a ResponseEntity with the status of the request.
+     */
     @PutMapping("/customers/{customerId}")
     public ResponseEntity<?> putCustomer(
             @RequestBody Customer newCustomer,
@@ -61,6 +89,11 @@ public class CustomerAPI {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Deletes a specific customer by their ID.
+     * @param id the ID of the customer to delete.
+     * @return a ResponseEntity with the status of the request.
+     */
     @DeleteMapping("/customers/{customerId}")
     public ResponseEntity<?> deleteCustomerById(@PathVariable("customerId") long id) {
 
